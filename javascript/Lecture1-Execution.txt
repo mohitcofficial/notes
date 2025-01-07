@@ -1,0 +1,155 @@
+Everything in javascript happens inside the execution context.
+
+Execution context is like a container inside which whole javascript code is executed.
+
+
+*Javascript is a synchronous single threaded language*
+Single threaded : Only one command can be executed at a time.
+Synchronous : The commands are going to get executed in a particular order.
+
+
+
+Execution context has two components which are:
+1)Memory Component or Variable Environment: This is where all the variables and functions are stored as key value pair.
+2)Code Component or Thread of Execution: This is where code is executed one line at a time . 
+
+--------------------------------------
+|   Memory        |        Code      |
+|------------------------------------|
+| Key: value      |                  |
+| a = 10;         |                  |
+| fn: {...}       |                  |
+|                 |                  |
+|------------------------------------|
+
+
+How Javascript code gets executed ?
+When we run our code , an execution context is created. This execution context is created in 2 phases:
+1)Memory Creation Phase: 
+   -In first phase  , all the variables are declared and allocated memory
+   -(during declaration , it is also assigned its default value 'undefined') 
+   whereas functions are declared and they store the entire function inside it.  
+=> Code Execution Phase: 
+   -In second phase , JS once again runs throught the whole program line by line and executes code.
+   -This is the phase where all the variables are re-assigned to their actual value.
+
+Whenever a new function is invoded(called) a new execution context is created and again 2 phases involved.
+Note: We also have memory for the parameters of that function.
+
+---------------------------------------------------------------------------------------------------------------------
+
+Example:
+
+line1| var n = 2;
+line2| function square(num){
+line3|     var ans = num*num;
+line4|     return ans;
+line5| }
+line6| var square2 = square(n);
+line7| var square4 = square(4);
+
+---------
+Phase1:
+---------
+Global Execution Context
+--------------------------------------
+|   Memory        |        Code      |
+|------------------------------------|
+| n: undefined    |                  |
+| square:{...}    |                  |
+| square2: undef  |                  |
+| square4: undef  |                  |
+|------------------------------------|
+
+
+---------
+Phase2:
+---------
+Line6 incode function invocation
+-------------------------------------------------
+|   Memory        |        Code                 |
+|-----------------------------------------------|
+|                 |   Memory    |    Code       |
+| n: undefined    |  __________________________ |
+| square:{...}    |             |               |
+| square2: undef  | num: undef  |               |
+| square4: undef  | ans: undef  |               |
+|                 |             |               |
+|                 |             |               |
+|                 |             |               |
+|                 |             |               |
+|                 |                             |
+|-----------------------------------------------|
+
+
+Now, ans value will replace the square2 value of 1st execution context.
+Execution context for square function will be deleted and control moves to line7
+-------------------------------------------------
+|   Memory        |        Code                 |
+|-----------------------------------------------|
+|                 |   Memory    |    Code       |
+| n: undefined    |  __________________________ |
+| square:{...}    |             |               |
+| square2: 4      | num: 2      |               |
+| square4: undef  | ans: 4      |  return ans;  |
+|                 |             |               |
+|                 |             |               |
+|                 |             |               |
+|                 |             |               |
+|                 |                             |
+|-----------------------------------------------|
+
+
+
+Same thing also happens here
+-------------------------------------------------
+|   Memory        |        Code                 |
+|-----------------------------------------------|
+|                 |   Memory    |    Code       |
+| n: undefined    |  __________________________ |
+| square:{...}    |             |               |
+| square2: 4      | num: undef  |               |
+| square4: undef  | ans: undef  |               |
+|                 |             |               |
+|                 |             |               |
+|                 |             |               |
+|                 |             |               |
+|                 |                             |
+|-----------------------------------------------|
+
+
+Here, ans is returned and execution context is removed again
+-------------------------------------------------
+|   Memory        |        Code                 |
+|-----------------------------------------------|
+|                 |   Memory    |    Code       |
+| n: undefined    |  __________________________ |
+| square:{...}    |             |               |
+| square2: 4      | num: 2      |               |
+| square4: 16     | ans: 4      |  return ans;  |
+|                 |             |               |
+|                 |             |               |
+|                 |             |               |
+|                 |             |               |
+|                 |                             |
+|-----------------------------------------------|
+
+At last the Global Exection context is also removed and code stops running.
+
+===========
+Call Stack
+===========
+Used to manage multiple execution contexts. It also maintains the order of execution of execution context.
+
+|            |
+|------------|
+|   EC2      | 
+|------------|
+|   EC1      |
+|------------|
+| Global EC  |
+|____________|
+ 
+
+
+
