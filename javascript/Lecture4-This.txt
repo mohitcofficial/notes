@@ -1,0 +1,83 @@
+============
+This in JS
+============
+
+-Refers to the context in which a function is invoked & its value depends on how the function is called.
+-this keyword is dynamic and varies based on execution context.
+
+1)Global Context
+ -In global scopt 'this' refers to global object.(i.e. window or global)
+
+2)Object Method
+ -when 'this' is used inside a method (a function that is property of an object) then it refers to the object.
+ - Example:
+    const person = {
+        name: "alice",                      // here 'this' points to person obj
+        greet: function(){
+            console.log("Hello" + this.name);
+        }
+    }
+
+3)Standalone Function
+ -unstrict mode: refers to global object
+ -strict mode: undefined
+
+4)Constructor Function
+ -refers to the new object that is created.
+ -Example:
+
+   function car(brand){
+    this.brand = brand;
+   }
+   const myCar = new Car("Toyota");
+   console.log(car.brand);
+
+5)Arrow functions
+ -Arrow functions handle this differently.
+ -They do not have their own "this" but instead they inherit this from their lexical context.
+ -Example:
+    
+    const person = {
+        name: 'alice',
+        greet: function(){
+            const innergreet = () => {
+                console.log(this.name);
+            }
+            innergreet();
+        }
+    }
+    //innergreet inherits 'this' of the greet function
+
+6)Explicit Binding**
+ -JS provide methods to set this 
+
+ --call()
+  //call(this, argument1, argument2, ...)
+  function showName(){
+    console.log(this.name);
+  }
+  const person = {name: "Mohit"};
+  showName.call(person)
+
+
+  --apply()
+
+  // apply(this, [argument1, argument2, ...])
+  Similar to call but take array as arguments
+
+
+  ---bind()
+   Bind method does not call the function immediately. 
+   Instead, it creates a new function with "this" set to the specified object.
+
+    const person = {
+        name: "Alice",
+    };
+
+    function greet(greeting, punctuation) {
+        console.log(`${greeting}, ${this.name}${punctuation}`);
+    }
+
+    // Using bind
+    const boundGreet = greet.bind(person, "Hey");
+    boundGreet("!"); // Output: Hey, Alice!
