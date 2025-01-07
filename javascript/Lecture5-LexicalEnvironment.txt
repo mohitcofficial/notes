@@ -1,0 +1,54 @@
+=====================
+Lexical Environment
+=====================
+
+Scope => wher you can acces a particuar variable or function in your code.
+
+Scope is directly propotional to Lexical Environment
+
+***Lexical Environment =  local memory + Lexical Environment of parent***
+
+So, if our javascript has to find some variable, then it checks the local memory . 
+If the variable is not present in local memory, it goes the lexical environment of parent. 
+Then the local memory of parent is scanned, if variable found then fine else it will go 
+to the lexical environment of its parent as well and so on.
+**By parent, we mean the parent function inside which the current function resides.
+
+Example:
+
+function a(){
+    var b = 10;
+    c();
+    function c(){
+        console.log(b);
+    }
+}
+a();
+console.log(b)
+
+Here, c has access to local variables and lexical environment of a and global.
+=> this is what is called *Scope Chain*
+
+
+
+============
+let & Const
+============
+
+-They occupy memory during the first phase of creation of execution context and are assigned 'undefined' .
+-let and const variables declaration also goes to the top of the scope.
+-In Global Scope, let and const are also allocated memory but they are stored in a different memory space other than global 
+ i.e.Script object (and not inside the global object)
+-you cannot access these locations before you have put in some value.
+-If try to access let or const variable in temporal dead zone , the let variable will not be shown in inspect/sources in Chrome.
+-In rest of the cases , all let and const will be stored in the same object.
+-even after they are assigned some value they are still present in a seperate memory.
+-redeclaration is also not possible and no code is executed if it happens.
+-const needs to be initialized at declaration
+
+
+
+Temporal Dead Zone:
+-------------------
+
+Time since the let variable was hoisted till the time it's initialized a value.
